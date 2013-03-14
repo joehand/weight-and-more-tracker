@@ -1,0 +1,22 @@
+<script>
+    var userBootstrap = {
+        '_id'       : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
+        'name'      : {{ g.user.name|tojson|safe }},
+        'email'     : {{ g.user.email|tojson|safe }},
+        'last_seen' : {{ g.user.JSONTime()|tojson|safe }}
+    };
+    var postsBootstrap = [
+        {% for post in posts -%}
+            {
+                 '_id'   : {{ post.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
+                'content': {{ post.note|tojson|safe }},
+                'timestamp': {{ post.JSONTime()|tojson|safe }},
+                'track': {
+                    {%- for key in post.tracking recursive -%}
+                        '{{ key }}':{{ post.tracking[key]|tojson|safe }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                }
+            }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+    ];
+</script>

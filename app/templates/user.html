@@ -1,0 +1,21 @@
+<!-- extend from base layout -->
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="well well-large" style="height: 140px;">
+    <div class="pull-right">
+        <img src="{{user.avatar(128)}}" class="img-rounded">
+        {% if user.last_seen %}
+        <p class="muted text-center">{{momentjs(user.last_seen).calendar()}}</p>
+        {% endif %}
+    </div>
+    <h3 class="gamma">{{user.name}}{% if user.id == g.user.id %} <small>(<a href="{{url_for('edit')}}">edit</a>)</small>{% endif %}</h3>
+    {% if user.about_me %}
+    	<p>{{user.about_me}}</p>
+    {% endif %}
+</div>
+
+{% for post in posts %}
+    {% include 'post.html' %}
+{% endfor %}
+{% endblock %}

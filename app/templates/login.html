@@ -1,0 +1,30 @@
+<!-- extend from base layout -->
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="well">
+    <form class="form" action="" method="post" name="login">
+        {{form.hidden_tag()}}
+            {% for error in form.errors %}
+            <br><span style="color: red;">[{{error}}]</span>
+            {% endfor %}
+        <div class="control-group">
+            {% for pr in providers %}
+            <a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');"><img src="/static/img/{{pr.name.lower()}}.png" class="img-polaroid" style="margin:2px;" /></a>
+            {% endfor %}
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox" for="remember_me">
+                    {{ form.remember_me }}Remember Me
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Sign In">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lte IE 8]>     <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		{% if title %}
+			<title>{{title}} - tracker</title>
+		{% else %}
+			<title>tracker</title>
+		{% endif %}
+		<meta name="description" content="Awesomeness!">
+		<meta name="viewport" content="width=device-width">
+		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			<div class="navbar navbar-inverse">
+				<div class="navbar-inner">
+				  <ul class="nav">
+					<li{% if request.path == url_for('index') %} class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
+					{% if g.user.is_authenticated() %}
+					<li{% if request.path == url_for('user', name = g.user.name) %} class="active"{% endif %}><a href="{{ url_for('user', name = g.user.name) }}">Your Data</a></li>
+					<li><a href="{{ url_for('logout') }}">Logout</a></li>
+					{% endif %}
+				  </ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span12">
+					{% include 'flash.html' %}
+					{% block content %}{% endblock %}
+				</div>
+			</div>
+		</div>
+		{% if g.user.is_authenticated() %}
+			{% block js_bootstrap %}{% endblock %}
+		{% endif %}
+	  <script src="{{ url_for('static', filename='js/libs/require.js') }}"></script> 
+	  <script>
+	  	requirejs.config({
+	  		//set baseUrl here so I can use template
+    		baseUrl: "{{ url_for('static', filename='js/')}}"
+        });
+		require(["{{ url_for('static', filename='js/config.js')}}"], function (common) {
+			require(['app/main']);
+        });
+	  </script>
+	</body>
+</html>

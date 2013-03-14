@@ -1,0 +1,29 @@
+@import 'libs/bootstrap';
+@import 'flat-ui/flat-ui';
+@import 'libs/typeplate';
+
+body {
+	background: url('../img/subtle_grunge.png?1360548631') top left repeat;
+}
+
+//hi
+
+.box {
+	background: rgba(177,185,196,0.5);
+	border: 1px solid #b1b9c4;
+	box-shadow: 0 0 1px rgba(255,255,255,0.75);
+	padding: 1.65rem 1.65rem 0;
+	margin: 2.475rem 0 1.65rem;
+	border-radius: 0.333333em;
+}
+
+.control-label {
+	font-weight:bold;
+	padding-top: 0px;
+	margin-top:-10px;
+}
+
+.ui-slider {
+	margin-left:0;
+	overflow:visible;
+}

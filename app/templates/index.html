@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2 class="beta">Hello, {{g.user.name}}!</h2>
+<hr>
+{% include 'new_entry.html' %}
+<hr>
+<div class="viz-shell"></div>
+{% endblock %}
+
+{% block js_bootstrap %}
+    {% include 'models_js.html' %}
+{% endblock %}

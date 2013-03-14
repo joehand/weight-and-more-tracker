@@ -1,0 +1,12 @@
+<div class="row box">
+	<p>{{post.note | markdown }}</p>
+	<small class="pull-right muted">{{momentjs(post.timestamp).fromNow()}}</small>
+	<ul class="stats-tabs">
+		<li><span>{{post.tracking.weight}}<b>Weight</b></span></li>
+		<li><span>{{post.tracking.happy}}<b>Happy</b></span></li>
+		<li><span>{{post.tracking.diet}}<b>Diet</b></span></li>
+		<li><span>{{post.tracking.exercise}}<b>Exercise</b></span></li>
+		<li><span>{{post.tracking.floss}}<b>Floss</b></span></li>
+		<li><span>{{post.tracking.meditation}}<b>Meditate</b></span></li>
+	</ul>
+</div>
