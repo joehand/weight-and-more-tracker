@@ -5,10 +5,10 @@ A basic application to track your weight and a few other items once per day. You
 ### Current Features
 
 * Track things:
-** Weight 
-** Happiness, Exercise, Diet on 1 - 10 scale
-** Did you floss & meditate?
-** Write a note about your day (formatted w/ markdown)
+    * Weight 
+    * Happiness, Exercise, Diet on 1 - 10 scale
+    * Did you floss & meditate?
+    * Write a note about your day (formatted w/ markdown)
 * See the things you have tracked
 
 ***(Pretty basic so far!)***
@@ -27,10 +27,10 @@ These are the things I have thought about tackling. I plan on doing them in orde
 * Dynamic fields so the user can create a set of default fields to see daily and can add any fields on an ad-hoc basis.
 * Better UI
 * More tracking!!
-** Time standing/sitting at desk
-** Coffee per day
-** Water per day
-** Smiles per day
+    * Time standing/sitting at desk
+    * Coffee per day
+    * Water per day
+    * Smiles per day
 * Email reminders to track things
 * Email alerts when things get out of whack from averages
 * [750words](http://750words.com) style daily writing
