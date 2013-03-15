@@ -1,4 +1,4 @@
-define(['backbone', 'underscore', 'jquery'], function(Backbone, _, $) {
+define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, Moment) {
     /*
         Bootstraped Models 
 
@@ -54,6 +54,15 @@ define(['backbone', 'underscore', 'jquery'], function(Backbone, _, $) {
                     });
 
             return min.get('track')[variable];
+        },
+        getNumDays: function() {
+            //get number of days the collection spans
+            var models = this.models,
+                d0 = moment(_.first(models).get('timestamp'));
+                d1 = moment(_.last(models).get('timestamp'));
+
+            //always want +Num, just in case
+            return Math.abs(d0.diff(d1, 'days'));
         }
     });
 

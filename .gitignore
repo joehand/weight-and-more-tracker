@@ -35,10 +35,11 @@ nosetests.xml
 .project
 .pydevproject
 
-.
 
 venv
 tmp
+app.db
+
 
 # OS generated files #
 ######################

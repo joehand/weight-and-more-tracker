@@ -1,5 +1,5 @@
  define(['jquery', 'moment', 'jqueryui', 'bootstrap'], function($, moment) {
-    //To-Do: Make this not so freaking ugly code. That is all hacked together.
+    //To-Do: Make this not so freaking ugly code. This is all hacked together.
     
     // Init jQuery UI slider
     $(".ui-slider").find('a').tooltip({title:'5', delay: { show: 500, hide: 100 }, trigger: 'hover focus'});
