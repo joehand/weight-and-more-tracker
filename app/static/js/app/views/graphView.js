@@ -45,7 +45,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 'maxY'      : maxY,
                 'xScale'    : xScale,
                 'yScale'    : yScale
-            }
+            };
 
             //drawing some axes
             this.r.path('M' + GRAPH_SETTINGS.leftGutter + ' 0L' + GRAPH_SETTINGS.leftGutter + ' ' + (GRAPH_SETTINGS.height - GRAPH_SETTINGS.bottomGutter) + 'L' + GRAPH_SETTINGS.width + ' ' + (GRAPH_SETTINGS.height - GRAPH_SETTINGS.bottomGutter))
