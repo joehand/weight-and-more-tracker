@@ -6,8 +6,12 @@ from mongoengine import connect
 from flask.ext.mongoengine import MongoEngine
 
 #Connect to the DB
-app.config['MONGODB_DB'] = app.config['DB_NAME']
-connect(app.config['DB_NAME'], host='mongodb://' + app.config['DB_USERNAME'] + ':' + app.config['DB_PASSWORD'] + '@' + app.config['DB_HOST_ADDRESS'])
+app.config['MONGODB_DB'] = app.config['DB_NAME'] or os.environ.get('DB_NAME')
+#For Heroku MongoHQ Add-On
+if os.environ.get('MONGOHQ_URL'):
+        connect(app.config['DB_NAME'], host=os.environ.get('MONGOHQ_URL'))
+    else:
+        connect(app.config['DB_NAME'], host='mongodb://' + app.config['DB_USERNAME'] + ':' + app.config['DB_PASSWORD'] + '@' + app.config['DB_HOST_ADDRESS'])
 db = MongoEngine(app)
 
 #login/openid
