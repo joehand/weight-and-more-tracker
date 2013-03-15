@@ -39,6 +39,13 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
             //sort collection by oldest => newest
             return post.get('timestamp');
         },
+        createDayIndex: function() {
+            var day = 0;
+            _.each(this.models, function(model) {
+                day = this.getNumDays(model.id);
+                model.set('dayIndex', day);
+            }, this);
+        },
         getMaxVal: function(variable) {
             //returns Max in collection of variable from tracking object
             var max = _.max(this.models, function(post){ 
@@ -55,11 +62,16 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
 
             return min.get('track')[variable];
         },
-        getNumDays: function() {
-            //get number of days the collection spans
+        getNumDays: function(modelID) {
+            //get number of days the collection spans or difference in days with input model
             var models = this.models,
-                d0 = moment(_.first(models).get('timestamp'));
-                d1 = moment(_.last(models).get('timestamp'));
+                d0 = Moment(_.first(models).get('timestamp'));
+
+                if (modelID) {
+                    d1 = Moment(this.get(modelID).get('timestamp'));
+                } else {
+                    d1 = Moment(_.last(models).get('timestamp'));
+                }
 
             //always want +Num, just in case
             return Math.abs(d0.diff(d1, 'days'));

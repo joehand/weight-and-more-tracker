@@ -22,6 +22,8 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'model/MainModel', 'view/g
                 graph: 'weight'
             });
             this.graphView = graphView;
+
+            return this;
         }
     });
 
