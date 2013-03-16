@@ -8,10 +8,9 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
         'topGutter'    : 20,
         'bottomGutter' : 20,
         'graphPad'     : 10,
-        'colorHue'     : 0.6 || Math.random(),
-        'color'        : 'hsl(' + [this.colorHue, .5, .5] + ')',
+        'color'        : '#34495e',
         'txt'          : {font: '12px Helvetica, Arial', fill: '#333'}
-    }
+    };
 
     var GraphView = Backbone.View.extend({
         initialize: function(){
@@ -56,7 +55,8 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 'minY'      : minY,
                 'maxY'      : maxY,
                 'xScale'    : xScale,
-                'yScale'    : yScale
+                'yScale'    : yScale,
+                'movAvgDays': 10
             };
 
             
@@ -76,7 +76,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 yPos = (maxY - model.get('track')[this.graphVar]) * yScale - GRAPH_SETTINGS.graphPad;
                 //Scale, indexed by day. Add padding for sides
                 xPos = xScale * day + GRAPH_SETTINGS.leftGutter + GRAPH_SETTINGS.graphPad;
-                this.r.circle(xPos, yPos, 2);
+                this.r.circle(xPos, yPos, 2).attr({fill:GRAPH_SETTINGS.color});
             }, this);
 
         },
@@ -105,9 +105,11 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 firstDay = this.config.firstDay,
                 yScale = this.config.yScale,
                 xScale = this.config.xScale,
+                maxY = this.config.maxY,
+                movAvgDays = this.config.movAvgDays,
                 yPos = 0, xPos = 0,
                 prevDayIndex = 0,
-                avg = 0, trackArray = [];
+                avg = 0, trackArray = [], pathStr = '';
 
             //Add a index to each model for days since start
             this.collection.createDayIndex();
@@ -136,16 +138,47 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 //Grab our first day if we do not have avg
                 if (!avg) {
                     avg = trackVar;
+
+                    //start the line on graph
+                    //TODO: Make these position functions to call for whole view, not DRY now (& the path drawing?)
+                    yPos = (maxY - avg) * yScale - GRAPH_SETTINGS.graphPad;
+                    xPos = xScale * dayIndex + GRAPH_SETTINGS.leftGutter + GRAPH_SETTINGS.graphPad;
+                    pathStr = 'M' + xPos + ' ' + yPos + 'R ';
                 } else {
                     //simple cumulative avg
-                    avg = avg + ((trackVar - avg) / dayIndex);
+                    //avg = avg + ((trackVar - avg) / dayIndex);
+
+                    //Moving Average: MA(n) = MA(n-1) - W(n-10)/n + W(n)/n
+
+                    if (_.isUndefined(trackArray[dayIndex - movAvgDays])) {
+                        //This happens for the first elements without a history
+                        //console.log('undefined avg');
+
+                        //We do a regular average at first.
+                        avg = avg + ((trackVar - avg) / dayIndex);
+                    } else if (_.isNull(trackArray[dayIndex - movAvgDays])) {
+                        //Happens with missing data in middle of series
+                        //console.log('null avg');
+                        //avg = avg + trackVar/dayIndex
+
+                    } else {
+                        //Nice data with a point we can drop
+                        //console.log('regular avg');
+                        avg = avg - trackArray[dayIndex - movAvgDays]/movAvgDays + trackVar/movAvgDays
+
+                    }
+
+
+                    yPos = (maxY - avg) * yScale - GRAPH_SETTINGS.graphPad;
+                    xPos = xScale * dayIndex + GRAPH_SETTINGS.leftGutter + GRAPH_SETTINGS.graphPad;
+                    pathStr += xPos + ',' + yPos + ' ';
                 }
                 
                 prevDayIndex = dayIndex + 1; //store for easy indexing of location
             }, this);
 
-            console.log(trackArray)
-            console.log(trackArray.length)
+            //add to graph
+            this.r.path(pathStr).attr({'stroke':GRAPH_SETTINGS.color, 'stroke-width':'2px'});
 
         }
     });
