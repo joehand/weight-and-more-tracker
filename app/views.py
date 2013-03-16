@@ -2,41 +2,19 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 from app import app, db, lm, oid, admin
-from models import User, ROLE_USER, ROLE_ADMIN, Post, TrackingData
+from forms import EditForm, LoginForm, PostForm, TestForm
+from models import User, Post, ROLE_USER, ROLE_ADMIN, TrackingData, Track
 from datetime import datetime
 from config import POSTS_PER_PAGE
 
-from flask.ext.mongoengine.wtf import model_form
-from flask.ext.superadmin import model
-
-#import my forms
-PostForm = model_form(Post)
-EditForm = model_form(User)
-LoginForm = model_form(User)
-
-# Register the admin views/models
-class UserAdminModel(model.ModelAdmin):
-	list_display = ('name','email', 'last_seen')
-
-	def is_accessible(self):
-		return g.user.is_authenticated() and g.user.role == 1 #must be admin
-
-class PostAdminModel(model.ModelAdmin):
-	list_display = ('author','timestamp')
-
-	#i'd like to return all of the users posts here instead so the can edit, need to figure out how to do that. But would also need to fix text box thing.
-
-	def is_accessible(self):
-		return g.user.is_authenticated() and g.user.role == 1 #must be admin. 
-
-admin.register(User, UserAdminModel)
-admin.register(Post, PostAdminModel)
+#Add the admin view!
+import admin_view
 
 
+#Index Page w/ Form and some viz
 @app.route('/', methods = ['GET', 'POST'])
-@app.route('/page/<int:page>', methods = ['GET', 'POST'])
 @login_required
-def index(page = 1):
+def index():
 	form = PostForm()
 	if form.validate_on_submit():
 		tracking = TrackingData (
@@ -60,10 +38,10 @@ def index(page = 1):
 		form = form,
 		posts = posts)
 
+
 @app.route('/u/<name>')
-@app.route('/u/<name>/<int:page>')
 @login_required
-def user(name, page = 1):
+def user(name):
 	user = User.objects(name = name).first()
 	if user == None:
 		flash('User ' + name + ' not found.')
