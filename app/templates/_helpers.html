@@ -1,0 +1,11 @@
+{% macro link_to(endpoint, text) -%}
+    <a href="{{ url_for(endpoint, **kwargs) }}">{{ text|safe }}</a>
+{%- endmacro %}
+
+{% macro link_css(filename) -%}
+    <link href="{{ url_for('static', filename='css/%s.css' % filename) }}" rel="stylesheet">
+{%- endmacro %}
+
+{% macro link_js(filename, text) -%}
+    <script src="{{ url_for('static', filename='js/%s.js' % filename) }}"></script> 
+{%- endmacro %}

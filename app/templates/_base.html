@@ -1,3 +1,4 @@
+{% import '_helpers.html' as help %}
 <!DOCTYPE html>
 <!--[if lte IE 8]>     <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -11,17 +12,23 @@
 		{% endif %}
 		<meta name="description" content="Awesomeness!">
 		<meta name="viewport" content="width=device-width">
-		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+		{{ help.link_css('main') }}
 	</head>
 	<body>
 		<div class="container">
 			<div class="navbar navbar-inverse">
 				<div class="navbar-inner">
 				  <ul class="nav">
-					<li{% if request.path == url_for('index') %} class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
+					<li{% if request.path == url_for('index') %} class="active"{% endif %}>
+						{{ help.link_to('index', "Home") }}
+					</li>
 					{% if g.user.is_authenticated() %}
-					<li{% if request.path == url_for('user', name = g.user.name) %} class="active"{% endif %}><a href="{{ url_for('user', name = g.user.name) }}">Your Data</a></li>
-					<li><a href="{{ url_for('logout') }}">Logout</a></li>
+					<li{% if request.path == url_for('user', name = g.user.name) %} class="active"{% endif %}>
+						{{ help.link_to('user', "Your Data", name=g.user.name) }}
+					</li>
+					<li>
+						{{ help.link_to('logout', "Logout") }}
+					</li>
 					{% endif %}
 				  </ul>
 				</div>
@@ -36,15 +43,16 @@
 		{% if g.user.is_authenticated() %}
 			{% block js_bootstrap %}{% endblock %}
 		{% endif %}
-	  <script src="{{ url_for('static', filename='js/libs/require.js') }}"></script> 
-	  <script>
-	  	requirejs.config({
-	  		//set baseUrl here so I can use template
-    		baseUrl: "{{ url_for('static', filename='js/')}}"
-        });
-		require(["{{ url_for('static', filename='js/config.js')}}"], function (common) {
-			require(['app/main']);
-        });
-	  </script>
+
+		{{ help.link_js('libs/require') }}
+	  	<script>
+	  		requirejs.config({
+	  			//set baseUrl here so I can use template
+    			baseUrl: "{{ url_for('static', filename='js/')}}"
+        	});
+			require(["{{ url_for('static', filename='js/config.js')}}"], function (common) {
+				require(['app/main']);
+        	});
+	  	</script>
 	</body>
 </html>
