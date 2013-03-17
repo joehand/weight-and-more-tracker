@@ -1,4 +1,17 @@
-define(['backbone', 'underscore', 'jquery', 'view/MainView', 'model/MainModel'], function(Backbone, _, $, MainView, MainModel) {
+define(['backbone', 'underscore', 'jquery', 'model/MainModel', 'view/vizView', 'view/formView', 'view/momentView'], function(Backbone, _, $, MainModel, VizView, FormView, MomentView) {
+
+    if ($('form').length) {
+        var formView = new FormView({
+            el: 'form'
+        });
+    }
+
+    if ($('.moment').length) {
+        var momentView = new MomentView({
+            el: '.moment'
+        });
+    }
+
     if (typeof viz !== 'undefined') {
         console.log('Starting main viz');
         //Load the bootstrap models (generated in template)
@@ -6,9 +19,10 @@ define(['backbone', 'underscore', 'jquery', 'view/MainView', 'model/MainModel'],
         var user = new MainModel.User(userBootstrap);
 
         //Start up the main view passing the posts as our collection and user as the model. boom.
-        var mainView = new MainView({
+        var vizView = new VizView({
             collection : posts,
             model : user
         });
     }
+
 });

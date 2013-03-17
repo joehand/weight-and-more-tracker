@@ -1,6 +1,6 @@
-define(['backbone', 'underscore', 'jquery', 'moment', 'model/MainModel', 'view/graphView', 'view/ui_helpers'], function(Backbone, _, $, moment, MainModel, GraphView) {
+define(['backbone', 'underscore', 'jquery', 'moment', 'model/MainModel', 'view/graphView'], function(Backbone, _, $, moment, MainModel, GraphView) {
         
-    var MainView = Backbone.View.extend({
+    var VizView = Backbone.View.extend({
 
         el: '.viz-shell',
 
@@ -28,5 +28,5 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'model/MainModel', 'view/g
     });
 
 
-    return MainView;
+    return VizView;
 });

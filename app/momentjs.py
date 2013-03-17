@@ -9,10 +9,10 @@ class momentjs:
 		self.timestamp = timestamp
 
 	def render(self, format):
-		return Markup("<span class=\"%s\">%s</span>" % (format, self.timestamp.strftime("%Y-%m-%dT%H:%M:%S Z")))
+		return Markup("<span class=\"moment %s\">%s</span>" % (format, self.timestamp.strftime("%Y-%m-%dT%H:%M:%S Z")))
 
 	def format(self, fmt):
-		return self.render("format(\"%s\")" % fmt)
+		return self.render("format(\"moment %s\")" % fmt)
 
 	def calendar(self):
 		return self.render("calendar")
