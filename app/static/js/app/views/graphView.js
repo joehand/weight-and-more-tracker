@@ -108,7 +108,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 maxY = this.config.maxY,
                 movAvgDays = this.config.movAvgDays,
                 yPos = 0, xPos = 0,
-                prevDayIndex = 0,
+                prevDayIndex = 0, missingDays = 0,
                 avg = 0, trackArray = [], pathStr = '';
 
             //Add a index to each model for days since start
@@ -145,8 +145,6 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                     xPos = xScale * dayIndex + GRAPH_SETTINGS.leftGutter + GRAPH_SETTINGS.graphPad;
                     pathStr = 'M' + xPos + ' ' + yPos + 'R ';
                 } else {
-                    //simple cumulative avg
-                    //avg = avg + ((trackVar - avg) / dayIndex);
 
                     //Moving Average: MA(n) = MA(n-1) - W(n-10)/n + W(n)/n
 
@@ -159,13 +157,15 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                     } else if (_.isNull(trackArray[dayIndex - movAvgDays])) {
                         //Happens with missing data in middle of series
                         //console.log('null avg');
-                        //avg = avg + trackVar/dayIndex
-
+                        missingDays += 1;
+                        avg = avg + ((trackVar - avg) / (movAvgDays - missingDays));
                     } else {
                         //Nice data with a point we can drop
                         //console.log('regular avg');
-                        avg = avg - trackArray[dayIndex - movAvgDays]/movAvgDays + trackVar/movAvgDays
+                        avg = avg - trackArray[dayIndex - movAvgDays]/movAvgDays + trackVar/movAvgDays;
 
+                        //reset our missing day index
+                        missingDays = 0;
                     }
 
 
