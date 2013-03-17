@@ -1,42 +1,51 @@
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g, make_response
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 from app import app, db, lm, oid, admin
-from forms import EditForm, LoginForm, PostForm, TestForm
-from models import User, Post, ROLE_USER, ROLE_ADMIN, TrackingData, Track
+from forms import EditForm, LoginForm, TrackForm
+from models import User, Track, ROLE_USER, ROLE_ADMIN
 from datetime import datetime
 from config import POSTS_PER_PAGE
 
 #Add the admin view!
 import admin_view
 
-
 #Index Page w/ Form and some viz
 @app.route('/', methods = ['GET', 'POST'])
 @login_required
 def index():
-	form = PostForm()
+	form = TrackForm()
 	if form.validate_on_submit():
-		tracking = TrackingData (
-				weight = form.tracking.weight.data,
-				happy = form.tracking.happy.data,
-				diet = form.tracking.diet.data,
-				exercise = form.tracking.exercise.data,
-				floss = form.tracking.floss.data,
-				meditation = form.tracking.meditation.data)
-		post = Post(
-			note = form.note.data,
-			timestamp = datetime.utcnow(),
-			author = g.user.to_dbref(),
-			tracking = tracking)
-		post.save()
+		tracking = Track (
+				weight = form.weight.data,
+				happy = form.happy.data,
+				diet = form.diet.data,
+				exercise = form.exercise.data,
+				floss = form.floss.data,
+				meditation = form.meditation.data,
+				note = form.note.data,
+				timestamp = datetime.utcnow(),
+				author = g.user.to_dbref())
+		tracking.save()
 		flash('Your post is now live!')
 		return redirect(url_for('index'))
-	posts = Post.objects(author=g.user)
+	posts = Track.objects(author=g.user)
 	return render_template("index.html", 
 		title = 'Home',
 		form = form,
 		posts = posts)
+
+
+#Index Page w/ Form and some viz
+@app.route('/csv')
+@login_required
+def csv():
+	posts = Post.objects(author=g.user)
+	response = make_response(render_template("csv.html", posts = posts))
+	response.mimetype = 'text/csv'
+	return response
+
+
 
 
 @app.route('/u/<name>')
@@ -47,7 +56,7 @@ def user(name):
 		flash('User ' + name + ' not found.')
 		return redirect(url_for('index'))
 	if g.user == user:
-		posts = Post.objects(author=user)
+		posts = Track.objects(author=user)
 		return render_template('user.html',
 			user = user, 
 			posts = posts)

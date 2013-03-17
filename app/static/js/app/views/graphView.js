@@ -125,7 +125,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                     trackVar = model.get('track')[this.graphVar]; //this is our 'n'
 
                 //push tracking varibale to track array
-                if (dayIndex != prevDayIndex) {
+                if (dayIndex > prevDayIndex) {
                     //If we miss days, add null entry
                     _(dayIndex - prevDayIndex).times( function(n) {
                         trackArray.push(null);

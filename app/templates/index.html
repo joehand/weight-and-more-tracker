@@ -1,9 +1,12 @@
 {% extends "_base.html" %}
+{% import "_forms.html" as forms %}
 
 {% block content %}
 <h2 class="beta">Hello, {{g.user.name}}!</h2>
 <hr>
-{% include 'new_entry.html' %}
+<form class="well form-horizontal" action="" method="post" name="post">
+    {{ forms.render(form)}}
+</form>
 <hr>
 <div class="viz-shell"></div>
 {% endblock %}

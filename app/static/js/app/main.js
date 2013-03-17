@@ -1,5 +1,6 @@
 define(['backbone', 'underscore', 'jquery', 'view/MainView', 'model/MainModel'], function(Backbone, _, $, MainView, MainModel) {
-    
+    if (typeof viz !== 'undefined') {
+        console.log('Starting main viz');
         //Load the bootstrap models (generated in template)
         var posts = new MainModel.Posts(postsBootstrap);
         var user = new MainModel.User(userBootstrap);
@@ -9,4 +10,5 @@ define(['backbone', 'underscore', 'jquery', 'view/MainView', 'model/MainModel'],
             collection : posts,
             model : user
         });
+    }
 });

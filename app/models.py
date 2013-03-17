@@ -50,18 +50,15 @@ Todo: Implement the TrackingData as a Dynamic Document so users can add/change w
     - How does this work with EmbeddedDocument?
     - Need to implement adding fields on the fly in the views
 """
-class TrackingData(db.EmbeddedDocument):
+class Track(db.Document):
+    author = db.ReferenceField(User)
+    note = db.StringField()
     weight = db.FloatField()
     happy = db.IntField()
     diet = db.IntField()
     exercise = db.IntField()
     meditation = db.BooleanField(default = False)
     floss = db.BooleanField(default = False)
-
-class Post(db.Document):
-    author = db.ReferenceField(User)
-    note = db.StringField()
-    tracking = db.EmbeddedDocumentField(TrackingData)
     timestamp = db.DateTimeField(default=datetime.now, required=True)
 
     def __unicode__(self):

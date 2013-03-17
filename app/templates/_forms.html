@@ -1,0 +1,53 @@
+{%- macro render(form) -%}
+{% for field in form -%}
+{% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+    {{ field() }}
+{%- else -%}
+    <div class="control-group{% if field.errors %} error{% endif %}">
+        {% if field.type in ['TextAreaField', 'FloatField'] -%}
+            <!--{{ field.label(class="control-label") }}-->
+        {%- else -%}
+            {{ field.label(class="control-label") }}
+        {%- endif %}
+        <div class="controls">
+            {% if field.type == "TextAreaField" -%}
+                  {{field(cols = 32, rows = 4, autofocus="autofocus", placeholder="%s" % field.name.capitalize(), class="span6", maxlength = 10000)}}
+            {% elif field.type =="FloatField" -%} 
+               {{ field(size = 20, maxlength = 7, placeholder="%s" % field.name.capitalize(), class="span6" ) }}
+            {% elif field.type =="BooleanField" -%}
+                {{ field(type="hidden") }}
+                <div class="toggle toggle-icon" data-input="{{ field.name }}">
+                  <label class="toggle-radio fui-checkmark-16" for="toggleOption6"></label>
+                  <input type="radio" name="toggleOptions3" id="toggleOption5" value="option5" checked="checked">
+                  <label class="toggle-radio fui-cross-16" for="toggleOption5"></label>
+                  <input type="radio" name="toggleOptions3" id="toggleOption6" value="option6">
+                </div>
+            {% elif field.type =="IntegerField" -%}
+                {{ field(type="hidden", value=5) }}
+                <div class="ui-slider span6" data-input="{{ field.name }}">
+                    <div class="ui-slider-segment"></div>
+                    <div class="ui-slider-segment"></div>
+                    <div class="ui-slider-segment"></div>
+                </div>
+            {% else -%}
+              {{ field() }}
+            {%- endif %}
+            {%- if field.errors or field.help_text -%}
+                <span class="help-inline">
+                {% if field.errors %}
+                    {{ field.errors|join(' ') }}
+                {% else %}
+                    {{ field.help_text }}
+                {% endif %}
+                </span>
+            {%- endif %}   
+        </div>
+    </div>
+{%- endif %}
+{%- endfor %}
+<div class="control-group">
+    <div class="controls">
+        <input class="btn btn-primary" type="submit" value="Add Entry!">
+    </div>
+</div>
+{%- endmacro -%}
