@@ -1,5 +1,6 @@
 from app import api
 from models import User, Track
+from flask.ext.login import current_user
 
 from flask.ext.mongorest import MongoRest
 from flask.ext.mongorest.views import ResourceView
@@ -17,12 +18,12 @@ class BaseResourceView(ResourceView):
 
 class UserResource(Resource):
     document = User
-    uri_prefix = "/user/"
 
 @api.register(name='user', url='/user/')
 class UserView(ResourceView):
     resource = UserResource
     methods = [Create, Update, Fetch, List]
+    authentication_methods = [SessionAuthentication]
 
 class TrackResource(Resource):
     document = Track
@@ -40,3 +41,4 @@ class TrackResource(Resource):
 class TrackView(ResourceView):
     resource = TrackResource
     methods = [Create, Update, Fetch, List]
+    authentication_methods = [SessionAuthentication]
