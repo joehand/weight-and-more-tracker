@@ -1,4 +1,5 @@
 <script>
+    var viz = true;
     var userBootstrap = {
         '_id'       : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
         'name'      : {{ g.user.name|tojson|safe }},

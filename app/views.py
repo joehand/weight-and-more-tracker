@@ -39,6 +39,28 @@ def index():
 		posts = posts)
 
 
+@app.route('/test', methods = ['GET', 'POST'])
+@login_required
+def test():
+	form = TestForm()
+	if form.validate_on_submit():
+		track = Track (
+				author = g.user.to_dbref(),
+				note = form.note.data,
+				weight = form.weight.data,
+				happy = form.happy.data,
+				diet = form.diet.data,
+				exercise = form.exercise.data,
+				floss = form.floss.data,
+				meditation = form.meditation.data)
+		track.save()
+		flash('Your post is now live!')
+		return redirect(url_for('test'))
+	return render_template("test.html", 
+		title = 'Home',
+		form = form)
+
+
 @app.route('/u/<name>')
 @login_required
 def user(name):

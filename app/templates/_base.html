@@ -1,15 +1,15 @@
-{% import '_helpers.html' as help %}
+{% import '_helpers.html' as help -%}
 <!DOCTYPE html>
-<!--[if lte IE 8]>     <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lte IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		{% if title %}
+		{%- if title %}
 			<title>{{title}} - tracker</title>
 		{% else %}
 			<title>tracker</title>
-		{% endif %}
+		{% endif -%}
 		<meta name="description" content="Awesomeness!">
 		<meta name="viewport" content="width=device-width">
 		{{ help.link_css('main') }}
@@ -19,31 +19,30 @@
 			<div class="navbar navbar-inverse">
 				<div class="navbar-inner">
 				  <ul class="nav">
-					<li{% if request.path == url_for('index') %} class="active"{% endif %}>
+					<li{%- if request.path == url_for('index') %} class="active"{% endif -%}>
 						{{ help.link_to('index', "Home") }}
 					</li>
-					{% if g.user.is_authenticated() %}
+					{% if g.user.is_authenticated() -%}
 					<li{% if request.path == url_for('user', name = g.user.name) %} class="active"{% endif %}>
 						{{ help.link_to('user', "Your Data", name=g.user.name) }}
 					</li>
 					<li>
 						{{ help.link_to('logout', "Logout") }}
 					</li>
-					{% endif %}
+					{%- endif %}
 				  </ul>
 				</div>
 			</div>
 			<div class="row">
 				<div class="span12">
-					{% include 'flash.html' %}
-					{% block content %}{% endblock %}
+					{%- include 'flash.html' -%}
+					{%- block content -%}{%- endblock -%}
 				</div>
 			</div>
 		</div>
-		{% if g.user.is_authenticated() %}
-			{% block js_bootstrap %}{% endblock %}
+		{%- if g.user.is_authenticated() %}
+			{%- block js_bootstrap -%}{%- endblock -%}
 		{% endif %}
-
 		{{ help.link_js('libs/require') }}
 	  	<script>
 	  		requirejs.config({
