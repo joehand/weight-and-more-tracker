@@ -9,6 +9,8 @@ from config import POSTS_PER_PAGE
 
 #Add the admin view!
 import admin_view
+#Add api!
+import api
 
 #Index Page w/ Form and some viz
 @app.route('/', methods = ['GET', 'POST'])

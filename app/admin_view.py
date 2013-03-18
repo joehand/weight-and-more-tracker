@@ -1,6 +1,6 @@
 from flask import g
 from app import admin
-from app.models import User, Track
+from models import User, Track
 from flask.ext.superadmin import model
 
 # Register the admin views/models

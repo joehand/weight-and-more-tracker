@@ -41,8 +41,11 @@ Markdown(app)
 
 #Super Admin
 from flask.ext.superadmin import Admin
-
 admin = Admin(app, 'My Tracker')
+
+#API (Mongo-Rest)
+from flask.ext.mongorest import MongoRest
+api = MongoRest(app)
 
 #import final app bits
 from app import views, models

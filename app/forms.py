@@ -1,4 +1,4 @@
-from app.models import User, Track
+from models import User, Track
 from flask.ext.mongoengine.wtf import model_form
 
 #create my forms, pretty stinking easy

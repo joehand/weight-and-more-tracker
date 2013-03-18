@@ -35,6 +35,7 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
 
     var Posts = Backbone.Collection.extend({
         model: Post,
+        url: '/track',
         comparator: function(post) {
             //sort collection by oldest => newest
             return post.get('timestamp');
