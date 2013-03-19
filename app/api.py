@@ -1,5 +1,5 @@
 from app import api
-from models import User, Track, Analysis
+from models import User, Track, Analysis, DailyAnalysis
 from flask.ext.login import current_user
 
 from flask.ext.mongorest import MongoRest
@@ -43,17 +43,17 @@ class TrackView(ResourceView):
     methods = [Create, Update, Fetch, List]
     authentication_methods = [SessionAuthentication]
 
+class DailyAnalysisResource(Resource):
+    document = DailyAnalysis
 
 class AnalysisResource(Resource):
     document = Analysis
     related_resources = {
-        'author': UserResource
+        'author': UserResource,
+        'dailyAnalysis': DailyAnalysisResource
     }
     filters = {
-        'author_id': [ops.Exact],
-    }
-    rename_fields = {
-        'author': 'author_id',
+        'author': [ops.Exact],
     }
 
 @api.register(name='data', url='/data/')

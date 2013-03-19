@@ -28,6 +28,8 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
         idAttribute: '_id'
     });
 
+    var Analysis = Backbone.Collection.extend ({
+    });
 
     var Post = Backbone.Model.extend ({
         idAttribute: '_id'
@@ -81,7 +83,8 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
 
     var api = {
         'User'  : User,
-        'Posts' : Posts
+        'Posts' : Posts,
+        'Analysis' : Analysis
     };
 
     return api;

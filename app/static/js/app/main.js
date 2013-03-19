@@ -23,6 +23,13 @@ define(['backbone', 'underscore', 'jquery', 'model/MainModel', 'view/vizView', '
             collection : posts,
             model : user
         });
-    }
+        /* 
+            sample API call for data! (needs parsing)
+        var analysis = new MainModel.Analysis()
+        analysis.url = '/data/?author__exact=' + user.id;
+        analysis.fetch()
+        console.log(analysis)
+        */
 
+    }
 });
