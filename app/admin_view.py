@@ -1,6 +1,6 @@
 from flask import g
 from app import admin
-from models import User, Track
+from models import User, Track, Analysis
 from flask.ext.superadmin import model
 
 # Register the admin views/models
@@ -18,6 +18,12 @@ class TrackAdminModel(model.ModelAdmin):
     def is_accessible(self):
         return g.user.is_authenticated() and g.user.role == 1 #must be admin. 
 
+class AnalysisAdminModel(model.ModelAdmin):
+    list_display = ('author', 'timestamp')
 
+    def is_accessible(self):
+        return g.user.is_authenticated() and g.user.role == 1 #must be admin. 
+
+admin.register(Analysis, AnalysisAdminModel)
 admin.register(User, UserAdminModel)
 admin.register(Track, TrackAdminModel)

@@ -5,7 +5,6 @@ from datetime import datetime
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
-
 class User(db.Document):
     created_at = db.DateTimeField(default=datetime.now)
     name = db.StringField()
@@ -44,6 +43,32 @@ class User(db.Document):
         'ordering': ['-created_at']
     }
 
+
+class DailyAnalysis(db.EmbeddedDocument):
+    day = db.IntField(required=True)
+    weightAvg = db.FloatField()
+    year = db.IntField(default = datetime.now().year, required=True)
+    
+    def __unicode__(self):
+        return unicode(self.id)
+
+    meta = {
+        'indexes': ['-year', '-day'],
+        'ordering': ['-year', '-day']
+    }
+
+class Analysis(db.Document):
+    author = db.ReferenceField(User)
+    dailyAnalysis = db.ListField(db.EmbeddedDocumentField(DailyAnalysis))
+    timestamp = db.DateTimeField(default=datetime.now, required=True)
+
+    def __unicode__(self):
+        return unicode(self.id)
+
+    meta = {
+        'indexes': ['-timestamp'],
+        'ordering': ['-timestamp']
+    }
 
 """
 Todo: Implement the TrackingData as a Dynamic Document so users can add/change what they are tracking
