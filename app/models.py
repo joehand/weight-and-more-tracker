@@ -6,12 +6,12 @@ ROLE_USER = 0
 ROLE_ADMIN = 1
 
 class User(db.Document):
-    created_at = db.DateTimeField(default=datetime.now)
+    created_at = db.DateTimeField(default=datetime.utcnow)
     name = db.StringField()
     email = db.EmailField()
     role = db.IntField()
     about_me = db.StringField(max_length=140)
-    last_seen = db.DateTimeField(default=datetime.now)
+    last_seen = db.DateTimeField(default=datetime.utcnow)
     remember_me = db.BooleanField(default = False)
 
     def avatar(self, size):
@@ -57,7 +57,7 @@ class Track(db.Document):
     exercise = db.IntField()
     meditation = db.BooleanField(default = False)
     floss = db.BooleanField(default = False)
-    timestamp = db.DateTimeField(default=datetime.now, required=True)
+    timestamp = db.DateTimeField(default=datetime.utcnow, required=True)
 
     def __unicode__(self):
         return unicode(self.id)
@@ -75,22 +75,24 @@ class Track(db.Document):
 
 class DailyAnalysis(db.EmbeddedDocument):
     postRef = db.ReferenceField(Track)
-    day = db.IntField(required=True)
+    date = db.DateTimeField(required=True)
     weightAvg = db.FloatField()
-    year = db.IntField(default = datetime.now().year, required=True)
 
     def __unicode__(self):
         return unicode(self.postRef)
 
+    def JSONTime(self):
+        return self.date.strftime('%Y-%m-%dT%H:%M:%S')
+
     meta = {
-        'indexes': ['-year', '-day'],
-        'ordering': ['-year', '-day']
+        'indexes': ['-date'],
+        'ordering': ['-date']
     }
 
 class Analysis(db.Document):
     author = db.ReferenceField(User)
     dailyAnalysis = db.ListField(db.EmbeddedDocumentField(DailyAnalysis))
-    timestamp = db.DateTimeField(default=datetime.now, required=True)
+    timestamp = db.DateTimeField(default=datetime.utcnow, required=True)
 
     def __unicode__(self):
         return unicode(self.id)
