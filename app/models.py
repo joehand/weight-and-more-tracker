@@ -43,33 +43,6 @@ class User(db.Document):
         'ordering': ['-created_at']
     }
 
-
-class DailyAnalysis(db.EmbeddedDocument):
-    day = db.IntField(required=True)
-    weightAvg = db.FloatField()
-    year = db.IntField(default = datetime.now().year, required=True)
-    
-    def __unicode__(self):
-        return unicode(self.id)
-
-    meta = {
-        'indexes': ['-year', '-day'],
-        'ordering': ['-year', '-day']
-    }
-
-class Analysis(db.Document):
-    author = db.ReferenceField(User)
-    dailyAnalysis = db.ListField(db.EmbeddedDocumentField(DailyAnalysis))
-    timestamp = db.DateTimeField(default=datetime.now, required=True)
-
-    def __unicode__(self):
-        return unicode(self.id)
-
-    meta = {
-        'indexes': ['-timestamp'],
-        'ordering': ['-timestamp']
-    }
-
 """
 Todo: Implement the TrackingData as a Dynamic Document so users can add/change what they are tracking
     - How does this work with EmbeddedDocument?
@@ -94,6 +67,33 @@ class Track(db.Document):
 
     def JSONTime(self):
         return self.timestamp.strftime('%Y-%m-%dT%H:%M:%S')
+
+    meta = {
+        'indexes': ['-timestamp'],
+        'ordering': ['-timestamp']
+    }
+
+class DailyAnalysis(db.EmbeddedDocument):
+    postRef = db.ReferenceField(Track)
+    day = db.IntField(required=True)
+    weightAvg = db.FloatField()
+    year = db.IntField(default = datetime.now().year, required=True)
+
+    def __unicode__(self):
+        return unicode(self.postRef)
+
+    meta = {
+        'indexes': ['-year', '-day'],
+        'ordering': ['-year', '-day']
+    }
+
+class Analysis(db.Document):
+    author = db.ReferenceField(User)
+    dailyAnalysis = db.ListField(db.EmbeddedDocumentField(DailyAnalysis))
+    timestamp = db.DateTimeField(default=datetime.now, required=True)
+
+    def __unicode__(self):
+        return unicode(self.id)
 
     meta = {
         'indexes': ['-timestamp'],

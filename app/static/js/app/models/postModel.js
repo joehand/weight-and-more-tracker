@@ -2,12 +2,6 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
     /*
         Bootstraped Models 
 
-        user = {
-            'name'  : "Joe",
-            'email'     : "joe.a.hand@gmail.com",
-            'last_seen' : "2013-03-13T00:45:47"
-        }
-
         posts = [
             {
                 'content': "some writing",
@@ -24,12 +18,6 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
             }
         ]
     */
-    var User = Backbone.Model.extend ({
-        idAttribute: '_id'
-    });
-
-    var Analysis = Backbone.Collection.extend ({
-    });
 
     var Post = Backbone.Model.extend ({
         idAttribute: '_id'
@@ -37,7 +25,6 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
 
     var Posts = Backbone.Collection.extend({
         model: Post,
-        url: '/track',
         comparator: function(post) {
             //sort collection by oldest => newest
             return post.get('timestamp');
@@ -52,18 +39,18 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
         getMaxVal: function(variable) {
             //returns Max in collection of variable from tracking object
             var max = _.max(this.models, function(post){ 
-                        return post.get('track')[variable];
+                        return post.get(variable);
                     });
 
-            return max.get('track')[variable];
+            return max.get(variable);
         },
         getMinVal: function(variable) {
             //returns Min in collection of variable from tracking object
             var min = _.min(this.models, function(post){ 
-                        return post.get('track')[variable];
+                        return post.get(variable);
                     });
 
-            return min.get('track')[variable];
+            return min.get(variable);
         },
         getNumDays: function(modelID) {
             //get number of days the collection spans or difference in days with input model
@@ -81,13 +68,7 @@ define(['backbone', 'underscore', 'jquery', 'moment'], function(Backbone, _, $, 
         }
     });
 
-    var api = {
-        'User'  : User,
-        'Posts' : Posts,
-        'Analysis' : Analysis
-    };
-
-    return api;
+    return Posts;
 
 
 });

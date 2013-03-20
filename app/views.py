@@ -14,6 +14,7 @@ import admin_view
 #Add api!
 import api
 
+
 #Index Page w/ Form and some viz
 @app.route('/', methods = ['GET', 'POST'])
 @login_required
@@ -35,21 +36,12 @@ def index():
         calculate_weightAvg_async(g.user.to_dbref())
         return redirect(url_for('index'))
     posts = Track.objects(author=g.user)
+    analysis = Analysis.objects(author=g.user).first()
     return render_template("index.html", 
         title = 'Home',
         form = form,
-        posts = posts)
-
-
-#Index Page w/ Form and some viz
-@app.route('/csv')
-@login_required
-def csv():
-    posts = Post.objects(author=g.user)
-    response = make_response(render_template("csv.html", posts = posts))
-    response.mimetype = 'text/csv'
-    return response
-
+        posts = posts,
+        analysis = analysis)
 
 @app.route('/u/<name>')
 @login_required

@@ -18,12 +18,14 @@ This is way too expensive right now...
 def calculate_weightAvg_async(user):
     x = []
     y = []
+    postRef = []
 
     data = Track.objects(author=user).order_by('timestamp')
 
     for track in data:
         x.append(track.timestamp.timetuple().tm_yday)
         y.append(track.weight)
+        postRef.append(track.to_dbref())
 
     y_av = movingaverage(y, 10)
 
@@ -34,7 +36,9 @@ def calculate_weightAvg_async(user):
     for i, avg in enumerate(y_av):
         my_data = DailyAnalysis (
             weightAvg = avg,
-            day = x[i])
+            day = x[i],
+            postRef = postRef[i]
+            )
         print '(' + str(x[i]) + ', ' + str(avg) + ')'    
         new_Analysis.dailyAnalysis.append(my_data)
 

@@ -1,4 +1,4 @@
-define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainModel'], function(Backbone, _, $, Moment, Raphael, MainModel) {
+define(['backbone', 'underscore', 'jquery', 'moment', 'raphael'], function(Backbone, _, $, Moment, Raphael) {
     
     //For now set these here. May change some to be dynamic. 
     var GRAPH_SETTINGS = {
@@ -73,7 +73,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
                 //Index of Model - may vary from ID if we are missing data, so we compare diff in # days
                 day = Math.abs(Moment(firstDay).diff(model.get('timestamp'), 'days'));
                 //Scale and add a little padding to all sides
-                yPos = (maxY - model.get('track')[this.graphVar]) * yScale - GRAPH_SETTINGS.graphPad;
+                yPos = (maxY - model.get(this.graphVar)) * yScale - GRAPH_SETTINGS.graphPad;
                 //Scale, indexed by day. Add padding for sides
                 xPos = xScale * day + GRAPH_SETTINGS.leftGutter + GRAPH_SETTINGS.graphPad;
                 this.r.circle(xPos, yPos, 2).attr({fill:GRAPH_SETTINGS.color});
@@ -122,7 +122,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'raphael', 'model/MainMode
             */
             _.each(models, function(model) {
                 var dayIndex = model.get('dayIndex'),
-                    trackVar = model.get('track')[this.graphVar]; //this is our 'n'
+                    trackVar = model.get(this.graphVar); //this is our 'n'
 
                 //push tracking varibale to track array
                 if (dayIndex > prevDayIndex) {
