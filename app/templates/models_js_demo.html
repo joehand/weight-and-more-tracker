@@ -18,6 +18,7 @@
     var postsBootstrap = [
         {%- for post in posts -%}
             {
+                '_id'       : {{ post.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
                 'timestamp' : {{ post.JSONTime()|tojson|safe }},
                 {%- for key in post recursive -%}
                     {%- if key in ['note', 'timestamp', 'author', 'id'] -%}
