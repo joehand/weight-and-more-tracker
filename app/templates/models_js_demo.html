@@ -1,0 +1,34 @@
+<script>
+    var userBootstrap = {
+        '_id'       : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
+        'dailyAnalysis' : [
+            {%- for daily in analysis.dailyAnalysis -%}
+            {
+                {%- for key in daily recursive -%}
+                    {%- if key in ['postRef'] -%}
+                    '{{ key }}':'{{ daily[key] }}',
+                    {%- elif key in ['date'] -%}
+                    '{{ key }}':{{ daily.JSONTime()|tojson|safe }}{% if not loop.last %},{% endif -%}
+                    {%- else -%}
+                    '{{ key }}':{{ daily[key]|tojson|safe }}{% if not loop.last %},{% endif -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            }{%- if not loop.last %},{% endif %}
+            {%- endfor -%}
+        ]
+    };
+    var postsBootstrap = [
+        {%- for post in posts -%}
+            {
+                '_id'       : {{ post.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
+                'timestamp' : {{ post.JSONTime()|tojson|safe }},
+                {%- for key in post recursive -%}
+                    {%- if key in ['note', 'timestamp', 'author', 'id'] -%}
+                    {%- else -%}
+                    '{{ key }}':{{ post[key]|tojson|safe }}{% if not loop.last %},{% endif -%}
+                    {%- endif -%}
+                {%- endfor -%}
+            }{%- if not loop.last %},{% endif %}
+        {%- endfor -%}
+    ];
+</script>

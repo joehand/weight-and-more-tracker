@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h2 class="beta">Welcome to the Demo!</h2>
+<hr>
+
+<div class="well">
+    <p>This is the data I (Joe Hand) have been tracking so far. Graph is still very much a work in progress (and wrong). But this gives you an idea of what is possible</p>
+</div>
+<hr>
+<div class="viz-shell"></div>
+
+{% for post in posts %}
+    <div class="row box">
+        <small class="pull-right muted">{{momentjs(post.timestamp).fromNow()}}</small>
+        <ul class="stats-tabs">
+            <li><span>{{post.weight}}<b>Weight</b></span></li>
+            <li><span>{{post.happy}}<b>Happy</b></span></li>
+            <li><span>{{post.diet}}<b>Diet</b></span></li>
+            <li><span>{{post.exercise}}<b>Exercise</b></span></li>
+            <li><span>{{post.floss}}<b>Floss</b></span></li>
+            <li><span>{{post.meditation}}<b>Meditate</b></span></li>
+        </ul>
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block demo_bootstrap %}
+    {% include 'models_js_demo.html' %}
+{% endblock %}
+

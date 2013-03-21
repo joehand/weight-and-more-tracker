@@ -29,6 +29,10 @@
 					<li>
 						{{ help.link_to('logout', "Logout") }}
 					</li>
+					{% else -%}
+					<li{% if request.path == url_for('login') %} class="active"{% endif %}>
+						{{ help.link_to('login', "Login") }}
+					</li>
 					{%- endif %}
 				  </ul>
 				</div>
@@ -40,8 +44,11 @@
 				</div>
 			</div>
 		</div>
-		{%- if g.user.is_authenticated() %}
+		{%- if g.user.is_authenticated()%}
 			{%- block js_bootstrap -%}{%- endblock -%}
+		{% endif %}
+		{%- if request.path == url_for('demo') %}
+			{%- block demo_bootstrap -%}{%- endblock -%}
 		{% endif %}
 		{{ help.link_js('libs/require') }}
 	  	<script>

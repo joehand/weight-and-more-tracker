@@ -74,6 +74,16 @@ def edit():
     return render_template('edit.html',
         form = form)
 
+@app.route('/demo')
+def demo():
+    demoID = '513a07ec9c7c840007acfc52' #me!
+    posts = Track.objects(author=demoID)
+    analysis = Analysis.objects(author=demoID).first()
+    return render_template("demo.html", 
+        title = 'Demo',
+        posts = posts,
+        analysis = analysis)
+
 @app.route('/login', methods = ['GET', 'POST'])
 @oid.loginhandler
 def login():
