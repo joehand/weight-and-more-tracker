@@ -1,10 +1,13 @@
 <script>
     var userBootstrap = {
-        'dailyAnalysis' : [
+    };
+
+    var dailyAnalysis = [
             {%- for daily in analysis.dailyAnalysis -%}
             {
                 {%- for key in daily recursive -%}
                     {%- if key in ['postRef'] -%}
+                    '{{ key }}':'{{ daily[key] }}',
                     {%- elif key in ['date'] -%}
                     '{{ key }}':{{ daily.JSONTime()|tojson|safe }}{% if not loop.last %},{% endif -%}
                     {%- else -%}
@@ -13,8 +16,7 @@
                 {%- endfor -%}
             }{%- if not loop.last %},{% endif %}
             {%- endfor -%}
-        ]
-    };
+    ];
     var postsBootstrap = [
         {%- for post in posts -%}
             {

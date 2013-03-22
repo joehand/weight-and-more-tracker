@@ -16,8 +16,10 @@ define(['backbone', 'underscore', 'jquery', 'model/userModel', 'model/postModel'
     if (typeof postsBootstrap !== 'undefined') {
         console.log('Starting main viz');
         //Load the bootstrap models (generated in template)
-        var posts = new Posts(postsBootstrap) || null;
-        var user = new User(userBootstrap) || null;
+        var user = new User(userBootstrap);
+        var posts = new Posts();
+        posts.reset(postsBootstrap);
+        posts.addAnalysis(dailyAnalysis);
         //Start up the main view passing the posts as our collection and user as the model. boom.
 
         var vizView = new VizView({

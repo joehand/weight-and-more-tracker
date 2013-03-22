@@ -1,4 +1,4 @@
-define(['backbone', 'underscore', 'jquery', 'moment', 'view/graphView'], function(Backbone, _, $, moment, GraphView) {
+define(['backbone', 'jquery', 'view/graphView'], function(Backbone, $, GraphView) {
         
     var VizView = Backbone.View.extend({
 
@@ -15,9 +15,9 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'view/graphView'], functio
         render: function() {
             console.log('vis render');
             //create a new graph view and pass model/collection on
-            this.$el.append('<div class="graph-container"></div>');
+            this.$el.append('<canvas id="graph-container" width="900" height="400"></canvas>');
             var graphView = new GraphView({
-                el : '.graph-container',
+                el : '#graph-container',
                 model: this.model,
                 collection: this.collection,
                 graph: 'weight'

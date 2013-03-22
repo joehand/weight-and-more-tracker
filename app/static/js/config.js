@@ -15,12 +15,8 @@ requirejs.config({
         'backbone'           : 'libs/backbone',
         'bootstrap'          : 'libs/bootstrap.min',
         'moment'             : 'libs/moment.min',
-        'eve'                : 'libs/raphael/eve', //part of raphael
-        'raphael-core'       : 'libs/raphael/raphael.core',
-        'raphael-svg'        : 'libs/raphael/raphael.svg',
-        'raphael-vml'        : 'libs/raphael/raphael.vml',
-        'raphael'            : 'libs/raphael/raphael.amd' //regular raphael & require don't like each other so we have to do this
-    },
+        'chart'              : 'libs/chart'
+        },
     shim: {
         backbone: {
             deps: ['jquery', 'underscore'],
@@ -35,8 +31,8 @@ requirejs.config({
         bootstrap: {
             deps: ['jquery']
         },
-        raphael: {
-            exports : 'Raphael'
+        chart: {
+            exports: 'Chart'
         }
     }
 });

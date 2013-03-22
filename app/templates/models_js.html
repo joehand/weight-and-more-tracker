@@ -3,8 +3,10 @@
         '_id'       : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
         'name'      : {{ g.user.name|tojson|safe }},
         'email'     : {{ g.user.email|tojson|safe }},
-        'last_seen' : {{ g.user.JSONTime()|tojson|safe }},
-        'dailyAnalysis' : [
+        'last_seen' : {{ g.user.JSONTime()|tojson|safe }}
+    };
+
+    var dailyAnalysis = [
             {%- for daily in analysis.dailyAnalysis -%}
             {
                 {%- for key in daily recursive -%}
@@ -18,8 +20,7 @@
                 {%- endfor -%}
             }{%- if not loop.last %},{% endif %}
             {%- endfor -%}
-        ]
-    };
+    ];
     var postsBootstrap = [
         {%- for post in posts -%}
             {
