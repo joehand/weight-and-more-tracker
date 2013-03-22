@@ -18,4 +18,9 @@
 {% for post in posts %}
     {% include 'post.html' %}
 {% endfor %}
+
+{% endblock %}
+
+{% block js_bootstrap %}
+    {% include 'models_js.html' %}
 {% endblock %}

@@ -52,9 +52,11 @@ def user(name):
         return redirect(url_for('index'))
     if g.user == user:
         posts = Track.objects(author=user)
+        analysis = Analysis.objects(author=g.user).first()
         return render_template('user.html',
             user = user, 
-            posts = posts)
+            posts = posts,
+        analysis = analysis)
     flash('You can only look at your own profile.')
     return redirect(url_for('index'))
 

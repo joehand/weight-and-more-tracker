@@ -3,8 +3,6 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
     var GraphView = Backbone.View.extend({
         initialize: function(){
             _.bindAll(this);
-            console.log(this, this.collection, this.model);
-
             var ctx = this.ctx = this.el.getContext('2d');
             
             this.getData();

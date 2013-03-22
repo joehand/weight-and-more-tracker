@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'view/graphView'], function(Backbone, $, GraphView) {
+define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Backbone, $, GraphView, RadarView) {
         
     var VizView = Backbone.View.extend({
 
@@ -9,22 +9,44 @@ define(['backbone', 'jquery', 'view/graphView'], function(Backbone, $, GraphView
         },
 
         initialize: function() {
-            this.render();
+            if (typeof this.el !== 'undefined') {
+                this.render();
+            } else {
+                this.renderRadars();
+            }
         },
-
         render: function() {
             console.log('vis render');
             //create a new graph view and pass model/collection on
             this.$el.append('<canvas id="graph-container" width="900" height="400"></canvas>');
             var graphView = new GraphView({
                 el : '#graph-container',
-                model: this.model,
-                collection: this.collection,
-                graph: 'weight'
+                collection: this.collection
             });
             this.graphView = graphView;
 
+            this.$el.append('<canvas id="radar-container" width="300" height="300"></canvas>');
+            var radarView = new RadarView({
+                el : '#radar-container',
+                model: _.last(this.collection.models)
+            });
+            this.radarView = radarView;
+
             return this;
+        },
+        renderRadars: function() {
+            _.each(this.collection.models, function(model) {
+                var id = model.id,
+                    $el = $("[data-id='" + id + "']");
+                if (typeof $el[0] !== 'undefined') {
+                    var radarView = new RadarView({
+                        el : $el[0],
+                        model: model
+                    });
+                }
+            });
+
+
         }
     });
 
