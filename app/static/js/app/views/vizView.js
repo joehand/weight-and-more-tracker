@@ -26,9 +26,15 @@ define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Back
             this.graphView = graphView;
 
             this.$el.append('<canvas id="radar-container" width="300" height="300"></canvas>');
+
+            var colLength = this.collection.length;
+            var models = this.collection.slice(colLength - 5, colLength);
+
+            console.log(models);
+
             var radarView = new RadarView({
                 el : '#radar-container',
-                model: _.last(this.collection.models)
+                model: models
             });
             this.radarView = radarView;
 

@@ -40,7 +40,18 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
             return this;
         },
         getData: function() {
-            this.dataset = [this.model.get('happy'), this.model.get('exercise'), this.model.get('diet')];
+            if (this.model.length > 1) {
+                var happy = 0, exercise = 0, diet = 0;
+                //average the models
+                _.each(this.model, function(model, i) {
+                    happy = happy + (model.get('happy') - happy) / (i + 1);
+                    exercise = exercise + (model.get('exercise') - exercise) / (i + 1);
+                    diet = diet + (model.get('diet') - diet) / (i + 1);
+                }, this)
+                this.dataset = [happy, exercise, diet];
+            } else {
+                this.dataset = [this.model.get('happy'), this.model.get('exercise'), this.model.get('diet')];
+            }
             this.labels = ['Happy', 'Exercise', 'Diet'];
         }
     });
