@@ -21,6 +21,7 @@
         initialize: function() {            
             // Init Tooltip
             this.tooltip = this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+            this.render();
         }, 
         render: function() {
             this.$el.slider({
@@ -31,7 +32,7 @@
                 range: "min",
                 slide: function() {
                     if (!this.tooltip) {
-                        this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+                        $(this).find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
                     }
                     $(this).find('a').tooltip('hide');
                 },
