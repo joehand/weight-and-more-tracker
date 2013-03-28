@@ -30,8 +30,6 @@ define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Back
             var colLength = this.collection.length;
             var models = this.collection.slice(colLength - 5, colLength);
 
-            console.log(models);
-
             var radarView = new RadarView({
                 el : '#radar-container',
                 model: models

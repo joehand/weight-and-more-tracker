@@ -19,7 +19,7 @@ This came about because I was weighing myself every night before bed. Those meas
 
 These are the things I have thought about tackling. I plan on doing them in order of most exciting => least.
 
-* Add graph for 10-day moving average of weight
+* ~~Add graph for 10-day moving average of weight~~
 * Alerts for when your weight gets above (or below...) a base range.
 * More graphs!
 * Deeper analysis of relationships between diet/exercise/happiness & weight. 

@@ -15,7 +15,6 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
     var RadarView = Backbone.View.extend({
         initialize: function(){
             _.bindAll(this);
-            console.log(this.el);
             var ctx = this.ctx = this.el.getContext('2d');
             
             this.getData();
@@ -44,9 +43,11 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                 var happy = 0, exercise = 0, diet = 0;
                 //average the models
                 _.each(this.model, function(model, i) {
-                    happy = happy + (model.get('happy') - happy) / (i + 1);
-                    exercise = exercise + (model.get('exercise') - exercise) / (i + 1);
-                    diet = diet + (model.get('diet') - diet) / (i + 1);
+                    if (model.get('happy') && model.get('exercise') && model.get('diet')) {
+                        happy = happy + (model.get('happy') - happy) / (i + 1);
+                        exercise = exercise + (model.get('exercise') - exercise) / (i + 1);
+                        diet = diet + (model.get('diet') - diet) / (i + 1);
+                    }
                 }, this)
                 this.dataset = [happy, exercise, diet];
             } else {

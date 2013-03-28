@@ -19,8 +19,10 @@
 
     var SliderView = FormView.extend({
         initialize: function() {            
-            // Init jQuery UI slider
-            this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+            // Init Tooltip
+            this.tooltip = this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+        }, 
+        render: function() {
             this.$el.slider({
                 min: 0,
                 max: 10,
@@ -28,6 +30,9 @@
                 orientation: "horizontal",
                 range: "min",
                 slide: function() {
+                    if (!this.tooltip) {
+                        this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+                    }
                     $(this).find('a').tooltip('hide');
                 },
                 stop: function( event, ui ) {
@@ -39,8 +44,6 @@
                         .delay(500).tooltip('show');
                 }
             });
-        }, 
-        render: function() {
             return this;
         }
     });

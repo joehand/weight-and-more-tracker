@@ -28,7 +28,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                         data : this.avgs
                     }
                 ]
-            }
+            };
 
             this.chart = new Chart(this.ctx).Line(data);
             return this;
@@ -50,6 +50,9 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                     }
 
                 weights.push(weight);
+                if (avg === undefined) {
+                    avg = avgs[i - 1];
+                }
                 avgs.push(avg)
                 labels.push(label);
             });
