@@ -101,3 +101,18 @@ class Analysis(db.Document):
         'indexes': ['-timestamp'],
         'ordering': ['-timestamp']
     }
+
+class Words(db.Document):
+    author = db.ReferenceField(User)
+    content = db.StringField()
+    timestamp = db.DateTimeField(default=datetime.utcnow, required=True)
+    numWords = db.IntField()
+    minutes = db.FloatField()
+
+    def __unicode__(self):
+        return unicode(self.id)
+
+    meta = {
+        'indexes': ['-timestamp'],
+        'ordering': ['-timestamp']
+    }

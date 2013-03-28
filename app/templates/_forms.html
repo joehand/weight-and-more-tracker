@@ -1,4 +1,4 @@
-{%- macro render(form) -%}
+{%- macro track(form) -%}
 {% for field in form -%}
 {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
     {{ field() }}
@@ -27,6 +27,43 @@
                     <div class="ui-slider-segment"></div>
                     <div class="ui-slider-segment"></div>
                 </div>
+            {% else -%}
+              {{ field() }}
+            {%- endif %}
+            {%- if field.errors or field.help_text -%}
+                <span class="help-inline">
+                {% if field.errors %}
+                    {{ field.errors|join(' ') }}
+                {% else %}
+                    {{ field.help_text }}
+                {% endif %}
+                </span>
+            {%- endif %}   
+        </div>
+    </div>
+{%- endif %}
+{%- endfor %}
+<div class="control-group">
+    <div class="controls">
+        <input class="btn btn-primary" type="submit" value="Add Entry!">
+    </div>
+</div>
+{%- endmacro -%}
+
+{%- macro words(form) -%}
+{% for field in form -%}
+{% if field.type in ['CSRFTokenField', 'HiddenField'] %}
+    {{ field() }}
+{%- else -%}
+    <div class="control-group{% if field.errors %} error{% endif %}">
+        {% if field.type in ['TextAreaField', 'FloatField'] -%}
+            <!--{{ field.label(class="control-label") }}-->
+        {%- else -%}
+            {{ field.label(class="control-label") }}
+        {%- endif %}
+        <div class="controls">
+            {% if field.type == "TextAreaField" -%}
+                  {{field(class="span12", rows = 50, autofocus="autofocus", placeholder="%s" % field.name.capitalize())}}
             {% else -%}
               {{ field() }}
             {%- endif %}

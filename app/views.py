@@ -2,8 +2,9 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 from app import app, db, lm, oid, admin
-from forms import EditForm, LoginForm, TrackForm
-from models import User, Track, ROLE_USER, ROLE_ADMIN, Analysis, DailyAnalysis
+from forms import EditForm, LoginForm, TrackForm, WordsForm
+from models import User, Track, Analysis, DailyAnalysis, Words
+from models import ROLE_USER, ROLE_ADMIN
 from datetime import datetime
 from config import POSTS_PER_PAGE
 
@@ -32,7 +33,7 @@ def index():
                 timestamp = datetime.utcnow(),
                 author = g.user.to_dbref())
         tracking.save()
-        flash('Your post is now live!')
+        flash('Your data is now live!')
         calculate_weightAvg_async(g.user.to_dbref())
         return redirect(url_for('index'))
     posts = Track.objects(author=g.user)
@@ -59,6 +60,22 @@ def user(name):
         analysis = analysis)
     flash('You can only look at your own profile.')
     return redirect(url_for('index'))
+
+@app.route('/words', methods = ['GET', 'POST'])
+@login_required
+def words():
+    form = WordsForm()
+    if form.validate_on_submit():
+        words = Words (
+                content = form.content.data,
+                timestamp = datetime.utcnow(),
+                author = g.user.to_dbref())
+        words.save()
+        flash('Your words are now live!')
+        return redirect(url_for('words'))
+    return render_template("words.html", 
+        title = 'Write your Words',
+        form = form)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required

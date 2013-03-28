@@ -26,6 +26,9 @@
 					<li{% if request.path == url_for('user', name = g.user.name) %} class="active"{% endif %}>
 						{{ help.link_to('user', "Your Data", name=g.user.name) }}
 					</li>
+					<li{%- if request.path == url_for('words') %} class="active"{% endif -%}>
+						{{ help.link_to('words', "Words") }}
+					</li>
 					<li>
 						{{ help.link_to('logout', "Logout") }}
 					</li>
