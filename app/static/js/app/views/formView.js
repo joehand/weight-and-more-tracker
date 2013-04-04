@@ -20,7 +20,7 @@
     var SliderView = FormView.extend({
         initialize: function() {            
             // Init Tooltip
-            this.tooltip = this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
+            this.$el.find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
             this.render();
         }, 
         render: function() {
@@ -31,7 +31,7 @@
                 orientation: "horizontal",
                 range: "min",
                 slide: function() {
-                    if (!this.tooltip) {
+                    if (!$(this).find('a').tooltip()) {
                         $(this).find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
                     }
                     $(this).find('a').tooltip('hide');
@@ -71,10 +71,12 @@
                 $inputEl = $el.parent().find('#' + id),
                 checked = $inputEl.prop('checked');
 
+
             //Click event, change checked val.
             if (toggle) {
                 checked = !checked;
-                $inputEl.prop('checked', checked);
+                $inputEl.prop('value', checked)
+                        .prop('checked', checked);
             }
 
             if (checked) {
@@ -82,6 +84,10 @@
             } else {
                 $el.addClass('toggle-off')
             }
+
+
+            console.log(checked);
+            console.log($inputEl);
         },
 
         render: function() {

@@ -15,7 +15,7 @@
             {% elif field.type =="FloatField" -%} 
                {{ field(size = 20, maxlength = 7, placeholder="%s" % field.name.capitalize(), class="span6" ) }}
             {% elif field.type =="BooleanField" -%}
-                {{ field(type="hidden") }}
+                {{ field(type="checkbox", style="display:none;") }}
                 <div class="toggle toggle-icon toggle-off" data-input="{{ field.name }}">
                     <div class="toggle-radio fui-checkmark-16" for="{{ field.name }}"></div>
                     <div class="toggle-radio fui-cross-16" for="{{ field.name }}"></div>
