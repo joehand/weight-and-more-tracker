@@ -1,26 +1,11 @@
 <!-- extend from base layout -->
 {% extends "_base.html" %}
+{% import "_forms.html" as forms %}
 
 {% block content %}
 <h1>Edit Your Profile</h1>
-<form action="" method="post" name="edit">
-    {{form.hidden_tag()}}
-    <table>
-            {% for error in form.errors %}
-            <br><span style="color: red;">[{{error}}]</span>
-            {% endfor %}
-        <tr>
-            <td>Your name:</td>
-            <td>{{form.name(size = 24)}}</td>
-        </tr>
-        <tr>
-            <td>About yourself:</td>
-            <td>{{form.about_me(cols = 48, rows = 5)}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save Changes"></td>
-        </tr>
-    </table>
+
+<form class="well form-horizontal" action="" method="post" name="post">
+    {{ forms.render(form)}}
 </form>
 {% endblock %}

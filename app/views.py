@@ -67,6 +67,8 @@ def edit():
     if form.validate_on_submit():
         g.user.name = form.name.data
         g.user.about_me = form.about_me.data
+        g.user.weight_goal = form.weight_goal.data
+        g.user.goal_date = form.goal_date.data
         g.user.save()
         flash('Your changes have been saved.')
         return redirect(url_for('edit'))

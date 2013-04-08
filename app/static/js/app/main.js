@@ -20,6 +20,7 @@ define(['backbone', 'underscore', 'jquery', 'model/userModel', 'model/postModel'
         var posts = new Posts();
         posts.reset(postsBootstrap);
         posts.addAnalysis(dailyAnalysis);
+        posts.addGoals(userBootstrap);
         //Start up the main view passing the posts as our collection and user as the model. boom.
 
         var vizView = new VizView({

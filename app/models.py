@@ -5,6 +5,18 @@ from datetime import datetime
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
+class WeightGoal(db.EmbeddedDocument):
+    weight_goal = db.FloatField()
+    goal_date = db.DateTimeField()
+    created_at = db.DateTimeField(default=datetime.utcnow)
+
+    def JSON_goal_start(self):
+        return self.created_at.strftime('%Y-%m-%d')
+
+    def JSON_goal_end(self):
+        return self.goal_date.strftime('%Y-%m-%d')
+
+
 class User(db.Document):
     created_at = db.DateTimeField(default=datetime.utcnow)
     name = db.StringField()
@@ -13,6 +25,7 @@ class User(db.Document):
     about_me = db.StringField(max_length=140)
     last_seen = db.DateTimeField(default=datetime.utcnow)
     remember_me = db.BooleanField(default = False)
+    goal = db.EmbeddedDocumentField(WeightGoal)
 
     def avatar(self, size):
         return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
@@ -30,7 +43,7 @@ class User(db.Document):
         return unicode(self.id)
 
     def JSONTime(self):
-        return self.last_seen.strftime('%Y-%m-%dT%H:%M:%S')
+        return self.last_seen.strftime('%Y-%m-%d')
 
     def __unicode__(self):
         return unicode(self.id)
@@ -66,7 +79,7 @@ class Track(db.Document):
         return unicode(self.id)
 
     def JSONTime(self):
-        return self.timestamp.strftime('%Y-%m-%dT%H:%M:%S')
+        return self.timestamp.strftime('%Y-%m-%d')
 
     meta = {
         'indexes': ['-timestamp'],
@@ -82,7 +95,7 @@ class DailyAnalysis(db.EmbeddedDocument):
         return unicode(self.postRef)
 
     def JSONTime(self):
-        return self.date.strftime('%Y-%m-%dT%H:%M:%S')
+        return self.date.strftime('%Y-%m-%d')
 
     meta = {
         'indexes': ['-date'],

@@ -27,6 +27,8 @@
                     <div class="ui-slider-segment"></div>
                     <div class="ui-slider-segment"></div>
                 </div>
+            {% elif field.type =="DateTimeField" -%}
+                {{ field(type="date")}}
             {% else -%}
               {{ field() }}
             {%- endif %}

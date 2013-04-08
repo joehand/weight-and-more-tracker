@@ -1,9 +1,14 @@
 <script>
     var userBootstrap = {
-        '_id'       : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
-        'name'      : {{ g.user.name|tojson|safe }},
-        'email'     : {{ g.user.email|tojson|safe }},
-        'last_seen' : {{ g.user.JSONTime()|tojson|safe }}
+        '_id'           : {{ g.user.get_id()|tojson|safe }}, // use _id for easy switch to direct mongo access
+        'name'          : {{ g.user.name|tojson|safe }},
+        'email'         : {{ g.user.email|tojson|safe }},
+        'last_seen'     : {{ g.user.JSONTime()|tojson|safe }},
+        'goal'          : {
+            'weight'    : {{ g.user.goal.weight_goal|tojson|safe }},
+            'start_date': {{ g.user.goal.JSON_goal_start()|tojson|safe }},
+            'end_date'  : {{ g.user.goal.JSON_goal_end()|tojson|safe }}
+        }
     };
 
     var dailyAnalysis = [

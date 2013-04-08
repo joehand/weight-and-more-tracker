@@ -31,7 +31,8 @@
                 orientation: "horizontal",
                 range: "min",
                 slide: function() {
-                    if (!$(this).find('a').tooltip()) {
+                    console.log($(this).find('a').tooltip());
+                    if ($(this).find('a').tooltip().length < 1) {
                         $(this).find('a').tooltip({title:'5', delay: { show: 500, hide: 10 }, trigger: 'manual'});
                     }
                     $(this).find('a').tooltip('hide');
@@ -84,10 +85,6 @@
             } else {
                 $el.addClass('toggle-off')
             }
-
-
-            console.log(checked);
-            console.log($inputEl);
         },
 
         render: function() {

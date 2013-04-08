@@ -26,6 +26,13 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                         pointColor : "rgba(151,187,205,0)",  
                         pointStrokeColor : "rgba(151,187,205,0)", 
                         data : this.avgs
+                    },
+                    {
+                        fillColor : "rgba(151,187,205,0)",  
+                        strokeColor : "rgba(155,89,182,1)",
+                        pointColor : "rgba(151,187,205,0)",  
+                        pointStrokeColor : "rgba(151,187,205,0)", 
+                        data : this.targets
                     }
                 ]
             };
@@ -36,28 +43,43 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
         getData: function() {
             var weights = [],
                 avgs = [],
-                labels = [];
+                labels = [],
+                targets = [],
+                lastData = false;
 
             _.each(this.collection.models, function(model, i) {
                 var weight = model.get('weight'),
-                    avg = model.get('weightAvg');
+                    avg = model.get('weightAvg'),
+                    target = model.get('targetWeight');
 
-                    //only put some labels in
-                    if (i % 3 === 0) {
-                        label = Moment(model.get('timestamp')).format('MMM D');
-                    } else {
-                        label = '';
-                    }
+                //only put some labels in
+                if (i % 3 === 0) {
+                    label = Moment(model.get('timestamp')).format('MMM D');
+                } else {
+                    label = '';
+                }
 
-                weights.push(weight);
+
                 if (avg === undefined) {
+                    //this could be done better
                     avg = avgs[i - 1];
                 }
-                avgs.push(avg)
+                if (model.get('lastData')) {
+                    //check if this is our last real data point
+                    lastData = true;
+                    avgs.push(avg); //need to push final avg
+                }
+                if (!lastData) {
+                    avgs.push(avg);
+                }
+
+                weights.push(weight);
                 labels.push(label);
+                targets.push(target);
             });
 
             this.weights = weights;
+            this.targets = targets;
             this.avgs = avgs;
             this.labels = labels;
         }
