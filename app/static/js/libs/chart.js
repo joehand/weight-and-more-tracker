@@ -470,7 +470,7 @@ var Chart = function(context){
 			};
 
 			var maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-			var minSteps = Math.floor((scaleHeight / labelHeight*0.5));
+			var minSteps = (upperValue < Math.floor((scaleHeight / labelHeight*0.5))) ? upperValue : Math.floor((scaleHeight / labelHeight*0.5));
 			
 			return {
 				maxValue : upperValue,
@@ -1306,7 +1306,7 @@ var Chart = function(context){
 	        //Compare number of steps to the max and min for that size graph, and add in half steps if need be.	        
 	        while(numberOfSteps < minSteps || numberOfSteps > maxSteps) {
 	        	if (numberOfSteps < minSteps){
-			        stepValue /= 2;
+			        stepValue = Math.round(stepValue / 2);
 			        numberOfSteps = Math.round(graphRange/stepValue);
 		        }
 		        else{
