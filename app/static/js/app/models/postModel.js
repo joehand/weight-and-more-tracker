@@ -67,7 +67,7 @@ define(['backbone', 'underscore', 'moment'], function(Backbone, _, Moment) {
         },
         addAnalysis: function(data) {
             _.each(data, function(point) {
-                var avg = point.weightAvg,
+                var avg = point.weightAvg.toFixed(1),
                     id = point.postRef;
 
                 this.get(id).set('weightAvg', avg);
@@ -105,12 +105,15 @@ define(['backbone', 'underscore', 'moment'], function(Backbone, _, Moment) {
 
             _.each(dailyWeights, function(dailyWeight, i) {
                 if (models[i]) {
-                    models[i].set('targetWeight', dailyWeight.weight);
+                    //don't need target for passed stuff
+                    //models[i].set('targetWeight', dailyWeight.weight);
                 } else {
                     var newModel = {};
                     newModel.timestamp = dailyWeight.timestamp;
                     newModel.real = false; //add a little identifier
-                    newModel.targetWeight = dailyWeight.weight;
+                    newModel.targetWeight = dailyWeight.weight.toFixed(1);
+                    newModel.upperTargetWeight = (dailyWeight.weight  * 1.015).toFixed(1);
+                    newModel.lowerTargetWeight = (dailyWeight.weight * 0.985).toFixed(1);
                     newModels.push(newModel);
                 }
             }, this);

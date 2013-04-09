@@ -1,8 +1,13 @@
 define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbone, _, $, Moment, Chart) {
 
+    var CHART_OPTIONS = {
+
+    };
+
     var GraphView = Backbone.View.extend({
         initialize: function(){
             _.bindAll(this);
+            console.log(this);
             var ctx = this.ctx = this.el.getContext('2d');
             
             this.getData();
@@ -33,11 +38,25 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                         pointColor : "rgba(151,187,205,0)",  
                         pointStrokeColor : "rgba(151,187,205,0)", 
                         data : this.targets
+                    },
+                    {
+                        fillColor : "rgba(151,187,205,0)",  
+                        strokeColor : "rgba(231,76,60,0.25)",
+                        pointColor : "rgba(151,187,205,0)",  
+                        pointStrokeColor : "rgba(151,187,205,0)", 
+                        data : this.lowerTargets
+                    },
+                    {
+                        fillColor : "rgba(151,187,205,0)",  
+                        strokeColor : "rgba(39,174,96,0.25)",
+                        pointColor : "rgba(151,187,205,0)",  
+                        pointStrokeColor : "rgba(151,187,205,0)", 
+                        data : this.upperTargets
                     }
                 ]
             };
 
-            this.chart = new Chart(this.ctx).Line(data);
+            this.chart = new Chart(this.ctx).Line(data, CHART_OPTIONS);
             return this;
         },
         getData: function() {
@@ -45,12 +64,16 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                 avgs = [],
                 labels = [],
                 targets = [],
+                lowerTargets = [],
+                upperTargets = [],
                 lastData = false;
 
             _.each(this.collection.models, function(model, i) {
                 var weight = model.get('weight'),
                     avg = model.get('weightAvg'),
-                    target = model.get('targetWeight');
+                    target = model.get('targetWeight'),
+                    lowerTarget = model.get('upperTargetWeight'),
+                    upperTarget = model.get('lowerTargetWeight');
 
                 //only put some labels in
                 if (i % 3 === 0) {
@@ -69,6 +92,7 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                     lastData = true;
                     avgs.push(avg); //need to push final avg
                 }
+
                 if (!lastData) {
                     avgs.push(avg);
                 }
@@ -76,10 +100,14 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                 weights.push(weight);
                 labels.push(label);
                 targets.push(target);
+                lowerTargets.push(lowerTarget);
+                upperTargets.push(upperTarget);
             });
 
             this.weights = weights;
             this.targets = targets;
+            this.lowerTargets = lowerTargets;
+            this.upperTargets = upperTargets;
             this.avgs = avgs;
             this.labels = labels;
         }
