@@ -1,5 +1,10 @@
 <script>
     var userBootstrap = {
+        'goal'          : {
+            'weight'    : {{ g.user.goal.weight_goal|tojson|safe }},
+            'start_date': {{ g.user.goal.JSON_goal_start()|tojson|safe }},
+            'end_date'  : {{ g.user.goal.JSON_goal_end()|tojson|safe }}
+        }
     };
 
     var dailyAnalysis = [
