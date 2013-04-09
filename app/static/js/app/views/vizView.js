@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Backbone, $, GraphView, RadarView) {
+define(['backbone', 'jquery', 'moment', 'view/graphView', 'view/radarView'], function(Backbone, $, Moment, GraphView, RadarView) {
         
     var VizView = Backbone.View.extend({
 
@@ -17,9 +17,10 @@ define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Back
         },
         render: function() {
             console.log('vis render');
+            var graphView, radarView, radarModels;
             //create a new graph view and pass model/collection on
             this.$el.append('<canvas id="graph-container" width="900" height="400"></canvas>');
-            var graphView = new GraphView({
+            graphView = new GraphView({
                 el : '#graph-container',
                 collection: this.collection
             });
@@ -27,12 +28,13 @@ define(['backbone', 'jquery', 'view/graphView', 'view/radarView'], function(Back
 
             this.$el.append('<canvas id="radar-container" width="300" height="300"></canvas>');
 
-            var colLength = this.collection.length;
-            var models = this.collection.slice(colLength - 5, colLength);
+            radarModels = this.collection.filter( function(model) {
+                return Moment().subtract('days', 7).format("YYYY-MM-DD") < model.get('timestamp') && Moment().format("YYYY-MM-DD") >= model.get('timestamp'); 
+            });
 
-            var radarView = new RadarView({
+            radarView = new RadarView({
                 el : '#radar-container',
-                model: models
+                model: radarModels
             });
             this.radarView = radarView;
 

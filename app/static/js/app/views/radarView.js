@@ -34,19 +34,24 @@ define(['backbone', 'underscore', 'jquery', 'moment', 'chart'], function(Backbon
                     }
                 ]
             }
-
             this.chart = new Chart(this.ctx).Radar(data ,CHART_OPTIONS);
             return this;
         },
         getData: function() {
             if (this.model.length > 1) {
-                var happy = 0, exercise = 0, diet = 0;
+                var happy, exercise, diet;
                 //average the models
                 _.each(this.model, function(model, i) {
                     if (model.get('happy') && model.get('exercise') && model.get('diet')) {
-                        happy = happy + (model.get('happy') - happy) / (i + 1);
-                        exercise = exercise + (model.get('exercise') - exercise) / (i + 1);
-                        diet = diet + (model.get('diet') - diet) / (i + 1);
+                        if (i === 0) {
+                            happy = model.get('happy');
+                            exercise = model.get('exercise');
+                            diet = model.get('diet');
+                        } else {
+                            happy = happy + (model.get('happy') - happy) / (i + 1);
+                            exercise = exercise + (model.get('exercise') - exercise) / (i + 1);
+                            diet = diet + (model.get('diet') - diet) / (i + 1);
+                        }
                     }
                 }, this)
                 this.dataset = [happy, exercise, diet];
