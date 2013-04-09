@@ -105,8 +105,10 @@ define(['backbone', 'underscore', 'moment'], function(Backbone, _, Moment) {
 
             _.each(dailyWeights, function(dailyWeight, i) {
                 if (models[i]) {
-                    //don't need target for passed stuff
-                    //models[i].set('targetWeight', dailyWeight.weight);
+                    //do we need target for passed days?
+                    models[i].set('targetWeight', dailyWeight.weight.toFixed(1));
+                    models[i].set('upperTargetWeight', (dailyWeight.weight  * 1.015).toFixed(1));
+                    models[i].set('lowerTargetWeight', (dailyWeight.weight * 0.985).toFixed(1));
                 } else {
                     var newModel = {};
                     newModel.timestamp = dailyWeight.timestamp;
