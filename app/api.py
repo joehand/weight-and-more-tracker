@@ -19,7 +19,7 @@ class BaseResourceView(ResourceView):
 class UserResource(Resource):
     document = User
 
-@api.register(name='user', url='/user/')
+@api.register(name='api_user', url='/user/')
 class UserView(ResourceView):
     resource = UserResource
     methods = [Create, Update, Fetch, List]
@@ -37,7 +37,7 @@ class TrackResource(Resource):
         'author': 'author_id',
     }
 
-@api.register(name='track', url='/track/')
+@api.register(name='api_track', url='/track/')
 class TrackView(ResourceView):
     resource = TrackResource
     methods = [Create, Update, Fetch, List]
@@ -56,7 +56,7 @@ class AnalysisResource(Resource):
         'author': [ops.Exact],
     }
 
-@api.register(name='data', url='/data/')
+@api.register(name='api_data', url='/data/')
 class AnalysisView(ResourceView):
     resource = AnalysisResource
     methods = [Create, Update, Fetch, List]
