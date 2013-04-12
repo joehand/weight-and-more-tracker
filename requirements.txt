@@ -21,7 +21,6 @@ misaka==1.0.2
 mongoengine==0.7.9
 nose==1.2.1
 numpy>=1.7.1
-pandas>=0.10.1
 psycopg2==2.4.6
 pycrypto==2.6
 pymongo==2.4.2
