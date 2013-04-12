@@ -8,4 +8,4 @@ EditForm = model_form(User, exclude=['last_seen', 'created_at' , 'role', 'email'
         'format' : '%Y-%m-%d'
     }
 })
-LoginForm = model_form(User)
+LoginForm = model_form(User, only=['remember_me'])
